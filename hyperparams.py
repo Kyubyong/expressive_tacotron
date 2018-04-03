@@ -14,7 +14,7 @@ class Hyperparams:
     # data
     data = "/data/private/voice/LJSpeech-1.0"
     test_data = 'test_sents.txt'
-    ref_audio = 'ref2/*.wav'
+    ref_audio = 'ref1/*.wav'
     Tx = 188 # Fixed length of text length.
 
     # signal processing
@@ -44,7 +44,7 @@ class Hyperparams:
     logdir = "logdir"
     sampledir = 'samples'
     batch_size = 32
-    num_iterations = 200000
+    num_iterations = 1000000
 
 
 
