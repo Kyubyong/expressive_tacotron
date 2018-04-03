@@ -1,6 +1,6 @@
 # A TensorFlow Implementation of Expressive Tacotron
 
-This project aims at implementing the paper, [Towards End-to-End Prosody Transfer for Expressive Speech Synthesis with Tacotron](https://arxiv.org/abs/1803.09047), to verify its concept. Most of my baseline codes are based on my previous [Tacotron implementation](https://github.com/Kyubyong/tacotron).
+This project aims at implementing the paper, [Towards End-to-End Prosody Transfer for Expressive Speech Synthesis with Tacotron](https://arxiv.org/abs/1803.09047), to verify its concept. Most of the baseline codes are based on my previous [Tacotron implementation](https://github.com/Kyubyong/tacotron).
 
 ## Requirements
 
