@@ -15,7 +15,6 @@ from train import Graph
 from utils import spectrogram2wav, load_spectrograms
 from scipy.io.wavfile import write
 import os
-import sys
 from glob import glob
 import numpy as np
 from math import ceil
@@ -62,8 +61,7 @@ def synthesize():
 
     saver = tf.train.Saver()
     with tf.Session() as sess:
-        saver.restore(sess, sys.argv[1])
-        #saver.restore(sess, tf.train.latest_checkpoint(hp.logdir)); print("Restored!")
+        saver.restore(sess, tf.train.latest_checkpoint(hp.logdir)); print("Restored!")
 
         batches = [
             texts[i:i + hp.batch_size]
