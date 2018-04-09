@@ -15,13 +15,13 @@ from train import Graph
 from utils import spectrogram2wav, load_spectrograms
 from scipy.io.wavfile import write
 import os
+import sys
 from glob import glob
 import numpy as np
 from math import ceil
 
 
 def looper(ref, start, batch_size):
-    #import ipdb; ipdb.set_trace()
     num = int(ceil(float(ref.shape[0]) / batch_size)) + 1
     tiled = np.tile(ref, (num, 1, 1))[start:start + batch_size]
     return tiled, start + batch_size % ref.shape[0]
@@ -61,7 +61,10 @@ def synthesize():
 
     saver = tf.train.Saver()
     with tf.Session() as sess:
-        saver.restore(sess, tf.train.latest_checkpoint(hp.logdir)); print("Restored!")
+        if len(sys.argv) == 1:
+            saver.restore(sess, tf.train.latest_checkpoint(hp.logdir)); print("Restored latest checkpoint")
+        else:
+            saver.restore(sess, sys.argv[1]); print("Restored checkpoint: %s" % sys.argv[1])
 
         batches = [
             texts[i:i + hp.batch_size]
