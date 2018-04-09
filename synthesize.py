@@ -62,9 +62,11 @@ def synthesize():
     saver = tf.train.Saver()
     with tf.Session() as sess:
         if len(sys.argv) == 1:
-            saver.restore(sess, tf.train.latest_checkpoint(hp.logdir)); print("Restored latest checkpoint")
+            saver.restore(sess, tf.train.latest_checkpoint(hp.logdir))
+            print("Restored latest checkpoint")
         else:
-            saver.restore(sess, sys.argv[1]); print("Restored checkpoint: %s" % sys.argv[1])
+            saver.restore(sess, sys.argv[1])
+            print("Restored checkpoint: %s" % sys.argv[1])
 
         batches = [
             texts[i:i + hp.batch_size]
