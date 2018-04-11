@@ -101,6 +101,29 @@ def reference_encoder(inputs, is_training=True, scope="encoder", reuse=None):
 
     return prosody
 
+def style_token_layer(inputs, num_tokens=10):
+    '''Applies a GRU to `inputs`, while attending `memory`.
+    Args:
+      inputs: A 2d tensor with shape of [N, 1, 128]. Reference embedding or prosody.
+      tokens: A 3d tensor with shape of [N, num_tokens, hp.embed_size]. Outputs of encoder network.
+      num_units: An int. Attention size. hp.embed_size.
+      scope: Optional scope for `variable_scope`.
+      reuse: Boolean, whether to reuse the weights of a previous layer
+        by the same name.
+
+    Returns:
+      A 3d tensor with shape of [N, T, num_units].
+    '''
+    # make tokens
+    with tf.variable_scope("tokens"):
+        tokens = tf.get_variable('tokens',
+                                   dtype=tf.float32,
+                                   shape=[1, num_tokens, hp.embed_size],
+                                   initializer=tf.truncated_normal_initializer(mean=0.0, stddev=0.01))
+        tokens = tf.tile(tokens, (hp.batch_size, 1, 1))
+    style, _ = attention_decoder(inputs, tokens, num_units=hp.embed_size, scope="attention") # (N, 1, E)
+    return style
+
 def decoder1(inputs, memory, is_training=True, scope="decoder1", reuse=None):
     '''
     Args:

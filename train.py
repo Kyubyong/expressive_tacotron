@@ -13,7 +13,7 @@ import tensorflow as tf
 from tqdm import tqdm
 from data_load import get_batch, load_vocab
 from modules import *
-from networks import transcript_encoder, reference_encoder, decoder1, decoder2
+from networks import transcript_encoder, reference_encoder, style_token_layer, decoder1, decoder2
 from utils import *
 
 class Graph:
@@ -51,8 +51,14 @@ class Graph:
             self.texts = transcript_encoder(self.transcript_inputs, is_training=is_training) # (N, Tx=188, E)
             self.prosody = reference_encoder(self.reference_inputs, is_training=is_training) # (N, 128)
             self.prosody = tf.expand_dims(self.prosody, 1) # (N, 1, 128)
-            self.prosody = tf.tile(self.prosody, (1, hp.Tx, 1)) # (N, Tx=188, 128)
-            self.memory = tf.concat((self.texts, self.prosody), -1) # (N, Tx, E+128)
+
+            if hp.use_GST:
+                self.style = style_token_layer(self.prosody) # (N, 1, E)
+                print(self.texts, self.style)
+                self.memory = self.texts + self.style # (Broadcast, N, Tx, E)
+            else:
+                self.prosody = tf.tile(self.prosody, (1, hp.Tx, 1)) # (N, Tx=188, 128)
+                self.memory = tf.concat((self.texts, self.prosody), -1) # (N, Tx, E+128)
 
             # Decoder1
             self.y_hat, self.alignments = decoder1(self.decoder_inputs,
