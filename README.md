@@ -45,9 +45,7 @@ Mostly, those two are different in terms of gender or region. The samples below 
 Check out the samples at each steps.
 
 * [130k steps](https://soundcloud.com/kyubyong-park/sets/expressive_tacotron_130k)
-* 300k steps (soon)
-* 500k steps (soon)
-* 1m steps (later)
+* [420k steps](https://soundcloud.com/kyubyong-park/sets/expressive_tacotron_420k)
 
 ## Analysis
   * Hearing the results of 130k steps, it's not clear if the model has learned the prosody.
