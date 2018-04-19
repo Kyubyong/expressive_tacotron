@@ -7,6 +7,7 @@ https://www.github.com/kyubyong/expressive_tacotron
 
 from __future__ import print_function
 
+import sys
 import os
 from hyperparams import Hyperparams as hp
 import tensorflow as tf
@@ -101,6 +102,11 @@ if __name__ == '__main__':
     
     sv = tf.train.Supervisor(logdir=hp.logdir, save_summaries_secs=60, save_model_secs=0)
     with sv.managed_session() as sess:
+
+        if len(sys.argv) == 2:
+            sv.saver.restore(sess, sys.argv[1])
+            print("Model restored.")
+
         while 1:
             for _ in tqdm(range(g.num_batch), total=g.num_batch, ncols=70, leave=False, unit='b'):
                 _, gs = sess.run([g.train_op, g.global_step])
